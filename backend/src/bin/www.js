@@ -8,10 +8,11 @@ import app from "../app";
 import debugLib from "debug";
 import http from "http";
 import mongoose from "mongoose";
-import config from "config";
+// import config from "config";
+// require("dotenv").config();
+import { dbHost, dbOptions } from "../db";
 const debug = debugLib("backend:server");
 const dbDebug = debugLib("backend:db");
-require("dotenv").config();
 
 /**
  * Get port from environment and store in Express.
@@ -37,22 +38,11 @@ server.on("listening", onListening);
 /**
  * Mongoose connecting
  */
-const db_path = config.get("db.path");
-const db_username = process.env.DB_USER;
-const db_password = process.env.DB_PASS;
 
-let db_host = config.get("db.protocol");
-if (db_username !== undefined) db_host += db_username + ":" + db_password + "@";
-db_host += db_path;
-dbDebug("DB host: " + db_host);
+dbDebug("DB host: " + dbHost);
 
 mongoose
-  .connect(db_host, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useNewUrlParser: true
-  })
+  .connect(dbHost, dbOptions)
   .then(() => dbDebug("connected to db!"))
   .catch(err => dbDebug(err));
 

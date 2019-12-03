@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { isEmail } from "validator";
 
+import uniqueValidator from "mongoose-unique-validator";
+
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -30,6 +32,7 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
+UserSchema.plugin(uniqueValidator);
 const User = mongoose.model("User", UserSchema);
 
 export default User;
