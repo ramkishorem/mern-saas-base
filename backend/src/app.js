@@ -1,22 +1,18 @@
-import asyncErrors from "express-async-errors";
+import { unhandledListener } from "./errorLogger";
 import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import errorLogger from "./errorLogger";
 import indexRouter from "./indexRouter";
 import courseRouter from "./courses/router";
 import userRouter from "./users/router";
 import errorHandler from "./middlewares/error";
 
-// var usersRouter = require("./routes/users");
-
+unhandledListener();
 const app = express();
 
-//Throw exception on unhandledRejection to let winston log it and exit
-process.on("unhandledRejection", ex => {
-  throw ex;
-});
+// const p = Promise.reject(new Error("rejected error"));
+// p.then(console.log("hi"));
 
 app.use(logger("dev"));
 app.use(express.json());

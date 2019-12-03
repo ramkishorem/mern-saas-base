@@ -44,4 +44,11 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
+export function unhandledListener() {
+  //Throw exception on unhandledRejection to let winston log it and exit
+  process.on("unhandledRejection", ex => {
+    throw ex;
+  });
+}
+
 export default errorLogger;
