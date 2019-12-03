@@ -1,0 +1,6 @@
+to do:
+
+auth
+--- find best way to handle data uniqueness
+error handling
+tests

@@ -1,0 +1,7 @@
+{
+    "name": "Express React Boilerplate - Express",
+    "db": {
+        "protocol":"mongodb+srv://",
+        "path":"cluster0-eb1y7.mongodb.net/test?retryWrites=true&w=majority"
+    }
+}

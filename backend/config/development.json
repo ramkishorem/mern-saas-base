@@ -1,0 +1,7 @@
+{
+    "name": "Express React Boilerplate - Express(DEV)",
+    "db": {
+        "protocol":"mongodb://",
+        "path":"localhost:27017/playground"
+    }
+}
