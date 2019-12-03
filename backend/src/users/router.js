@@ -19,7 +19,10 @@ router.post("/", isValid.body(qs.NewUserBodySchema), async (req, res, next) => {
     "email",
     "password"
   ]);
+  // const salt = await bcrypt.genSalt(10);
+  // createObj.password = await bcrypt.hash(createObj.password, salt);
   const user = await User.create(createObj);
+  user.password;
   res.send(user);
 });
 

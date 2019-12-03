@@ -3,5 +3,6 @@
     "db": {
         "protocol":"mongodb+srv://",
         "path":"cluster0-eb1y7.mongodb.net/test?retryWrites=true&w=majority"
-    }
+    },
+    "SALT_WORK_FACTOR": 15
 }
