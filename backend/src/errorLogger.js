@@ -3,7 +3,7 @@ import * as winstonMongoDB from "winston-mongodb";
 import { dbHost } from "./db";
 const { combine, timestamp, prettyPrint } = winston.format;
 
-const logger = winston.createLogger({
+const errorLogger = winston.createLogger({
   level: "info",
   format: combine(timestamp(), prettyPrint()),
   defaultMeta: { service: "user-service" },
@@ -25,6 +25,10 @@ const logger = winston.createLogger({
       }
     })
     // new winston.transports.File({ filename: "combined.log" })
+  ],
+
+  exceptionHandlers: [
+    new winston.transports.File({ filename: "exceptions.log" })
   ]
 });
 
@@ -33,11 +37,11 @@ const logger = winston.createLogger({
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 //
 if (process.env.NODE_ENV !== "production") {
-  logger.add(
+  errorLogger.add(
     new winston.transports.Console({
       format: winston.format.simple()
     })
   );
 }
 
-export default logger;
+export default errorLogger;
