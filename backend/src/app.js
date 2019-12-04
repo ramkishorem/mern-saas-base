@@ -1,11 +1,13 @@
 import { unhandledListener } from "./errorLogger";
 import express from "express";
+require("express-async-errors");
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./indexRouter";
 import courseRouter from "./courses/router";
 import userRouter from "./users/router";
+import authRouter from "./auth/router";
 import errorHandler from "./middlewares/error";
 
 unhandledListener();
@@ -23,6 +25,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/", indexRouter);
 app.use("/courses", courseRouter);
 app.use("/users", userRouter);
+app.use("/auth", authRouter);
 
 app.use(errorHandler);
 

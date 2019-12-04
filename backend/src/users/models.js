@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { isEmail } from "validator";
 import bcrypt from "bcrypt";
 import config from "config";
+import jsonwebtoken from "jsonwebtoken";
 import uniqueValidator from "mongoose-unique-validator";
 const SALT_WORK_FACTOR = config.has("SALT_WORK_FACTOR")
   ? config.get("SALT_WORK_FACTOR")
@@ -50,6 +51,16 @@ UserSchema.pre("save", async function(next) {
 UserSchema.methods.comparePassword = async function(password) {
   const isMatch = await bcrypt.compare(password, this.password);
   return isMatch;
+};
+
+UserSchema.methods.generateAuthToken = function() {
+  if (!this.isActive) {
+    const error = new Error("User is Inactive");
+    error.name = "UnauthorizedError";
+    throw error;
+  }
+  const token = jsonwebtoken.sign({ _id: this.id }, process.env.JWT_SECRET_KEY);
+  return token;
 };
 
 const User = mongoose.model("User", UserSchema);

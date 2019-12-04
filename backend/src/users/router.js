@@ -3,6 +3,7 @@ import _ from "lodash";
 import { createValidator } from "express-joi-validation";
 import * as qs from "./querySchema";
 import User from "./models";
+import jwt from "../middlewares/jwt";
 
 const router = express.Router();
 const isValid = createValidator();
@@ -22,8 +23,12 @@ router.post("/", isValid.body(qs.NewUserBodySchema), async (req, res, next) => {
   // const salt = await bcrypt.genSalt(10);
   // createObj.password = await bcrypt.hash(createObj.password, salt);
   const user = await User.create(createObj);
-  user.password;
   res.send(user);
+});
+
+router.get("/me", jwt(), async (req, res, next) => {
+  if (!req.user) return res.status(404).send("User not found");
+  res.send(req.user);
 });
 
 router.get(
