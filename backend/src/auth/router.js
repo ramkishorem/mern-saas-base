@@ -19,7 +19,7 @@ router.post(
 
     const correctPassword = await user.comparePassword(loginObj.password);
     if (!correctPassword) return res.status(errorCode).send(errorMessage);
-    const token = await user.generateAuthToken();
+    const token = user.generateAuthToken();
     res.header({ "x-auth-token": token }).send("Login Successful!");
   }
 );

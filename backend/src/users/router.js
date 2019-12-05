@@ -3,7 +3,7 @@ import _ from "lodash";
 import { createValidator } from "express-joi-validation";
 import * as qs from "./querySchema";
 import User from "./models";
-import jwt from "../middlewares/jwt";
+import getUser from "../middlewares/getUser";
 
 const router = express.Router();
 const isValid = createValidator();
@@ -26,7 +26,7 @@ router.post("/", isValid.body(qs.NewUserBodySchema), async (req, res, next) => {
   res.send(user);
 });
 
-router.get("/me", jwt(), async (req, res, next) => {
+router.get("/me", getUser(), async (req, res, next) => {
   if (!req.user) return res.status(404).send("User not found");
   res.send(req.user);
 });
