@@ -1,9 +1,9 @@
 import { unhandledListener } from "./errorLogger";
 import express from "express";
-require("express-async-errors");
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import asyncErrors from "express-async-errors";
 import indexRouter from "./indexRouter";
 import courseRouter from "./courses/router";
 import userRouter from "./users/router";
@@ -12,9 +12,6 @@ import errorHandler from "./middlewares/error";
 
 unhandledListener();
 const app = express();
-
-// const p = Promise.reject(new Error("rejected error"));
-// p.then(console.log("hi"));
 
 app.use(logger("dev"));
 app.use(express.json());
