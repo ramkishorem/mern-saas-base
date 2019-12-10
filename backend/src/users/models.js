@@ -34,10 +34,21 @@ const UserSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  permissions: {
+    type: [String]
   }
 });
 
 UserSchema.plugin(uniqueValidator);
+
+UserSchema.statics.selectFields = function() {
+  return "firstName lastName permissions";
+};
+
+UserSchema.statics.selectFieldsForUpdate = function() {
+  return { firstName: 1, lastName: 1, permissions: 1 };
+};
 
 UserSchema.pre("save", async function(next) {
   // only hash the password if it has been modified (or is new)
@@ -59,7 +70,10 @@ UserSchema.methods.generateAuthToken = function() {
     error.name = "UnauthorizedError";
     throw error;
   }
-  const token = jsonwebtoken.sign({ _id: this.id }, process.env.JWT_SECRET_KEY);
+  const token = jsonwebtoken.sign(
+    { _id: this.id, permissions: this.permissions },
+    process.env.JWT_SECRET_KEY
+  );
   return token;
 };
 

@@ -26,7 +26,8 @@ const GetUserParamsSchema = Joi.object({
 
 const UpdateUserBodySchema = Joi.object({
   firstName: Joi.string().max(50),
-  lastName: Joi.string().max(50)
+  lastName: Joi.string().max(50),
+  permissions: Joi.array().items(Joi.string())
 });
 
 export { NewUserBodySchema, GetUserParamsSchema, UpdateUserBodySchema };

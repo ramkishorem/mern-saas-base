@@ -4,27 +4,33 @@ import { createValidator } from "express-joi-validation";
 import * as qs from "./querySchema";
 import User from "./models";
 import getUser from "../middlewares/getUser";
+import createGuard from "express-jwt-permissions";
 
 const router = express.Router();
 const isValid = createValidator();
+const guard = createGuard();
 
 router.get("/", async (req, res, next) => {
   const users = await User.find().limit(50);
   res.send(users);
 });
 
-router.post("/", isValid.body(qs.NewUserBodySchema), async (req, res, next) => {
-  const createObj = _.pick(req.body, [
-    "firstName",
-    "lastName",
-    "email",
-    "password"
-  ]);
-  // const salt = await bcrypt.genSalt(10);
-  // createObj.password = await bcrypt.hash(createObj.password, salt);
-  const user = await User.create(createObj);
-  res.send(user);
-});
+router.post(
+  "/",
+  getUser(),
+  guard.check("user:create"),
+  isValid.body(qs.NewUserBodySchema),
+  async (req, res, next) => {
+    const createObj = _.pick(req.body, [
+      "firstName",
+      "lastName",
+      "email",
+      "password"
+    ]);
+    const user = await User.create(createObj);
+    res.send(user);
+  }
+);
 
 router.get("/me", getUser(), async (req, res, next) => {
   if (!req.user) return res.status(404).send("User not found");
@@ -33,9 +39,11 @@ router.get("/me", getUser(), async (req, res, next) => {
 
 router.get(
   "/:id",
+  getUser(),
+  guard.check("status"),
   isValid.params(qs.GetUserParamsSchema),
   async (req, res, next) => {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id, User.selectFields());
     if (!user) return res.status(404).send("User not found");
     res.send(user);
   }
@@ -43,11 +51,18 @@ router.get(
 
 router.put(
   "/:id",
+  getUser(),
+  guard.check("user:write"),
   isValid.params(qs.GetUserParamsSchema),
   isValid.body(qs.UpdateUserBodySchema),
   async (req, res, next) => {
-    const updateObj = _.pick(req.body, ["firstName", "lastName"]);
+    const updateObj = _.pick(req.body, [
+      "firstName",
+      "lastName",
+      "permissions"
+    ]);
     const user = await User.findByIdAndUpdate(req.params.id, updateObj, {
+      fields: User.selectFieldsForUpdate(),
       new: true
     });
     if (!user) return res.status(404).send("User not found");
@@ -57,6 +72,8 @@ router.put(
 
 router.put(
   "/:id/deactivate",
+  getUser(),
+  guard.check("admin"),
   isValid.params(qs.GetUserParamsSchema),
   async (req, res, next) => {
     const user = await User.findByIdAndUpdate(
@@ -64,7 +81,10 @@ router.put(
       {
         isActive: false
       },
-      { new: true }
+      {
+        fields: User.selectFieldsForUpdate(),
+        new: true
+      }
     );
     if (!user) return res.status(404).send("User not found");
     res.send(user);
