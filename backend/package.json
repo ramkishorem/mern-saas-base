@@ -2,6 +2,10 @@
   "name": "backend",
   "version": "0.0.0",
   "private": true,
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
+  },
   "scripts": {
     "start": "npm run prod",
     "server": "babel-node ./src/bin/www",
@@ -10,7 +14,8 @@
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist",
     "prod": "NODE_ENV=production npm-run-all clean build server:prod",
-    "watch": "nodemon"
+    "watch": "nodemon",
+    "test": "jest"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
@@ -43,6 +48,7 @@
     "@babel/node": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@types/hapi__joi": "^16.0.3",
+    "jest": "^24.9.0",
     "nodemon": "^2.0.1"
   }
 }

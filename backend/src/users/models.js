@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.statics.selectFields = function() {
-  return "firstName lastName permissions";
+  return "firstName lastName";
 };
 
 UserSchema.statics.selectFieldsForUpdate = function() {

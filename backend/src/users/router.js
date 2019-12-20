@@ -10,7 +10,7 @@ const router = express.Router();
 const isValid = createValidator();
 const guard = createGuard();
 
-router.get("/", async (req, res, next) => {
+router.get("/", guard.check("user:read"), async (req, res, next) => {
   const users = await User.find().limit(50);
   res.send(users);
 });
@@ -33,8 +33,9 @@ router.post(
 );
 
 router.get("/me", getUser(), async (req, res, next) => {
-  if (!req.user) return res.status(404).send("User not found");
-  res.send(req.user);
+  const user = await User.findById(req.user._id, User.selectFields());
+  if (!user) return res.status(404).send("User not found");
+  res.send(user);
 });
 
 router.get(
