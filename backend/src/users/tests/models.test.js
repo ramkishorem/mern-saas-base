@@ -2,6 +2,7 @@ import User from "../models";
 import jest from "jest-mock";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 describe("selectFields", () => {
   it("should return are firstName, lastName", () => {
@@ -37,11 +38,14 @@ describe("comparePassword", () => {
 
 describe("generateAuthToken", () => {
   it("should return a valid Auth token with _id and permissions", () => {
-    const user = new User({ _id: 1, permissions: ["admin"] });
+    const payload = {
+      _id: new mongoose.Types.ObjectId().toHexString(),
+      permissions: ["admin"]
+    };
+    const user = new User(payload);
     const token = user.generateAuthToken();
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    expect(decoded).toHaveProperty("_id");
-    expect(decoded).toHaveProperty("permissions");
+    expect(decoded).toMatchObject(payload);
   });
 });
 
