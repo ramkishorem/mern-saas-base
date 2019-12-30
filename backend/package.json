@@ -4,7 +4,8 @@
   "private": true,
   "jest": {
     "verbose": true,
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": ["dotenv/config"]
   },
   "scripts": {
     "start": "npm run prod",
