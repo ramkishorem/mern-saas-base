@@ -1,7 +1,7 @@
-import User from "./models";
+import User from "../models";
 
-describe("User values returned retriction", () => {
-  test("fields returned are firstName, lastName", () => {
+describe("selectFields", () => {
+  it("should return are firstName, lastName", () => {
     const selectFields = User.selectFields();
     expect(selectFields).toContain("firstName");
     expect(selectFields).toContain("lastName");
@@ -9,7 +9,10 @@ describe("User values returned retriction", () => {
       "firstName".length + "lastName".length + 2
     );
   });
-  test("fields updated and returned are firstName, lastName, permissions", () => {
+});
+
+describe("selectFieldsForUpdate", () => {
+  test("should update and returne firstName, lastName, permissions", () => {
     const selectFieldsForUpdate = User.selectFieldsForUpdate();
     expect(selectFieldsForUpdate).toEqual({
       firstName: 1,
@@ -19,9 +22,9 @@ describe("User values returned retriction", () => {
   });
 });
 
-describe("User Created", () => {
-  beforeEach(() => {
-    //   return initializeFoodDatabase();
-  });
-  test("");
-});
+// describe("User Created", () => {
+//   beforeEach(() => {
+//     //   return initializeFoodDatabase();
+//   });
+//   test("");
+// });
