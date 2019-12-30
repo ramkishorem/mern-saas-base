@@ -5,7 +5,9 @@
   "jest": {
     "verbose": true,
     "testEnvironment": "node",
-    "setupFiles": ["dotenv/config"]
+    "setupFiles": [
+      "dotenv/config"
+    ]
   },
   "scripts": {
     "start": "npm run prod",
@@ -16,7 +18,7 @@
     "build": "babel ./src --out-dir dist",
     "prod": "NODE_ENV=production npm-run-all clean build server:prod",
     "watch": "nodemon",
-    "test": "jest"
+    "test": "jest --watchAll --verbose"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
@@ -49,7 +51,9 @@
     "@babel/node": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@types/hapi__joi": "^16.0.3",
+    "formidable": "^1.2.1",
     "jest": "^24.9.0",
-    "nodemon": "^2.0.1"
+    "nodemon": "^2.0.1",
+    "supertest": "^4.0.2"
   }
 }

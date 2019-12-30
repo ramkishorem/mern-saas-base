@@ -2,6 +2,6 @@
     "name": "Express React Boilerplate - Express(TEST)",
     "db": {
         "protocol":"mongodb://",
-        "path":"localhost:27017/playground"
+        "path":"localhost:27017/app_tests"
     }
 }

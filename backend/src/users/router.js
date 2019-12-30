@@ -10,10 +10,14 @@ const router = express.Router();
 const isValid = createValidator();
 const guard = createGuard();
 
-router.get("/", guard.check("user:read"), async (req, res, next) => {
-  const users = await User.find().limit(50);
-  res.send(users);
-});
+router.get(
+  "/",
+  // guard.check("user:read"),
+  async (req, res, next) => {
+    const users = await User.find().limit(50);
+    res.send(users);
+  }
+);
 
 router.post(
   "/",
