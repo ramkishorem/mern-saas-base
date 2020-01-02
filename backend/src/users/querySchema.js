@@ -17,7 +17,8 @@ const NewUserBodySchema = Joi.object({
       message:
         "Password requirements: Minimum eight characters, at least" +
         " one uppercase letter,one lowercase letter and one number"
-    })
+    }),
+  permissions: Joi.array().items(Joi.string())
 });
 
 const GetUserParamsSchema = Joi.object({
