@@ -10,15 +10,10 @@ const router = express.Router();
 const isValid = createValidator();
 const guard = createGuard();
 
-router.get(
-  "/",
-  // getUser(),
-  // guard.check("user:read"),
-  async (req, res, next) => {
-    const users = await User.find().limit(50);
-    res.send(users);
-  }
-);
+router.get("/", getUser(), guard.check("user:read"), async (req, res, next) => {
+  const users = await User.find().limit(50);
+  res.send(users);
+});
 
 router.post(
   "/",
@@ -46,8 +41,8 @@ router.get("/me", getUser(), async (req, res, next) => {
 
 router.get(
   "/:id",
-  // getUser(),
-  // guard.check("user:read"),
+  getUser(),
+  guard.check("user:read"),
   isValid.params(qs.GetUserParamsSchema),
   async (req, res, next) => {
     const user = await User.findById(req.params.id, User.selectFields());
