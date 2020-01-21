@@ -7,12 +7,10 @@
 import app from "../app";
 import debugLib from "debug";
 import http from "http";
-import mongoose from "mongoose";
 // import config from "config";
 // require("dotenv").config();
-import { dbHost, dbOptions } from "../db";
+// import { dbHost, dbOptions } from "../db";
 const debug = debugLib("backend:server");
-const dbDebug = debugLib("backend:db");
 
 /**
  * Get port from environment and store in Express.
@@ -34,17 +32,6 @@ var server = http.createServer(app);
 server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
-
-/**
- * Mongoose connecting
- */
-
-dbDebug("DB host: " + dbHost);
-
-mongoose
-  .connect(dbHost, dbOptions)
-  .then(() => dbDebug("connected to db!"))
-  .catch(err => dbDebug(err));
 
 /**
  * Normalize a port into a number, string, or false.

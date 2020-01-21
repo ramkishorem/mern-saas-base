@@ -12,6 +12,7 @@ import errorHandler from "./middlewares/error";
 
 unhandledListener();
 const app = express();
+require("./db");
 
 app.use(logger("dev"));
 app.use(express.json());
