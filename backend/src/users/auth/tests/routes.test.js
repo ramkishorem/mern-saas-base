@@ -1,9 +1,9 @@
 // import server from "../../bin/www";
 import request from "supertest";
 import _ from "lodash";
-import app from "../../app";
+import app from "../../../app";
 import http from "http";
-import User from "../../users/models";
+import User from "../../models";
 
 let testUser;
 let loginData;

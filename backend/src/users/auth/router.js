@@ -2,7 +2,7 @@ import express from "express";
 import _ from "lodash";
 import { createValidator } from "express-joi-validation";
 import * as qs from "./querySchema";
-import User from "../users/models";
+import User from "../models";
 
 const router = express.Router();
 const isValid = createValidator();

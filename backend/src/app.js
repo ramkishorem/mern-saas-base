@@ -7,7 +7,7 @@ import asyncErrors from "express-async-errors";
 import indexRouter from "./startup/indexRouter";
 import courseRouter from "./courses/router";
 import userRouter from "./users/router";
-import authRouter from "./auth/router";
+import authRouter from "./users/auth/router";
 import errorHandler from "./middlewares/error";
 
 unhandledListener();
