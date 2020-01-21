@@ -9,7 +9,6 @@ import debugLib from "debug";
 import http from "http";
 // import config from "config";
 // require("dotenv").config();
-// import { dbHost, dbOptions } from "../db";
 const debug = debugLib("backend:server");
 
 /**

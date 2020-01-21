@@ -1,4 +1,4 @@
-import Joi from "../customJoi";
+import Joi from "../startup/customJoi";
 
 const NewCourseBodySchema = Joi.object({
   name: Joi.string()

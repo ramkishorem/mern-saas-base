@@ -1,4 +1,4 @@
-import Joi from "../customJoi";
+import Joi from "../startup/customJoi";
 
 const NewUserBodySchema = Joi.object({
   firstName: Joi.string()

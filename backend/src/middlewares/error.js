@@ -1,5 +1,5 @@
 import _ from "lodash";
-import errorLogger from "../errorLogger";
+import errorLogger from "../startup/errorLogger";
 
 export default function(err, req, res, next) {
   const error = _.pick(err, ["message", "name"]);

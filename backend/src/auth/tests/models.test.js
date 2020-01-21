@@ -1,7 +1,7 @@
 import Role from "../models";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-require("../../db");
+require("../../startup/db");
 
 let testRole;
 let testRole2;

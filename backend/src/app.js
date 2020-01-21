@@ -1,10 +1,10 @@
-import { unhandledListener } from "./errorLogger";
+import { unhandledListener } from "./startup/errorLogger";
 import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import asyncErrors from "express-async-errors";
-import indexRouter from "./indexRouter";
+import indexRouter from "./startup/indexRouter";
 import courseRouter from "./courses/router";
 import userRouter from "./users/router";
 import authRouter from "./auth/router";
@@ -12,7 +12,7 @@ import errorHandler from "./middlewares/error";
 
 unhandledListener();
 const app = express();
-require("./db");
+require("./startup/db");
 
 app.use(logger("dev"));
 app.use(express.json());
