@@ -1,9 +1,11 @@
 import request from "supertest";
-import server from "../../bin/www"; // to start db
+// import server from "../../bin/www"; // to start db
 import app from "../../app";
 import User from "../models";
 import mongoose from "mongoose";
+import http from "http";
 
+let server;
 let theHappyPath;
 let testUser;
 let testUser2;
@@ -13,6 +15,12 @@ let fixedPath;
 const fakeID = new mongoose.Types.ObjectId().toHexString();
 
 describe("/users", () => {
+  beforeAll(() => {
+    // server = require("../../bin/www");
+    // app = require("../../app");
+    server = http.createServer(app);
+    server.listen(3002);
+  });
   beforeEach(() => {
     testUser = {
       email: "q@w.er",

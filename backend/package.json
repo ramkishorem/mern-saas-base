@@ -18,7 +18,7 @@
     "build": "babel ./src --out-dir dist",
     "prod": "NODE_ENV=production npm-run-all clean build server:prod",
     "watch": "nodemon",
-    "test": "jest --watchAll --verbose"
+    "test": "jest --watchAll --verbose --forceExit --maxWorkers=1"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",

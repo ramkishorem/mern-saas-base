@@ -7,6 +7,7 @@ let testRole;
 let testRole2;
 
 describe("RoleSchema", () => {
+  beforeAll(() => {});
   beforeEach(() => {
     testRole = {
       name: "role1"
@@ -15,6 +16,8 @@ describe("RoleSchema", () => {
   afterEach(async () => {
     await Role.deleteMany({}); //remove({});
   });
+
+  afterAll(async () => {});
   describe("Model Validation", () => {
     it("should throw error when duplicate role name is used", async () => {
       const role = new Role(testRole);
