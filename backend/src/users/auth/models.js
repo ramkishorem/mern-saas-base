@@ -6,16 +6,10 @@ const roleNameSchema = {
   type: String,
   required: true,
   minlength: 3,
-  maxlength: 50,
-  unique: true
+  maxlength: 50
 };
 
-const RoleSchema = new mongoose.Schema({
-  name: roleNameSchema,
-  isActive: {
-    type: Boolean,
-    default: true
-  },
+const RoleReceiverSchema = new mongoose.Schema({
   ownedPermissions: {
     type: [String]
   },
@@ -30,9 +24,7 @@ const RoleSchema = new mongoose.Schema({
   }
 });
 
-RoleSchema.plugin(uniqueValidator);
-
-RoleSchema.pre("save", async function(next) {
+RoleReceiverSchema.pre("save", async function(next) {
   // Update permissions when ownedPermissions or inheritedPermissions change
   if (
     !this.isModified("ownedPermissions") &&
@@ -45,7 +37,7 @@ RoleSchema.pre("save", async function(next) {
   next();
 });
 
-// RoleSchema.post("save", async function(next) {
+// RoleReceiverSchema.post("save", async function(next) {
 //   // Update permissions when ownedPermissions or inheritedPermissions change
 //   if (!this.isModified("permissions")) return next();
 //   const ownedPermissions = this.ownedPermissions;
@@ -54,19 +46,20 @@ RoleSchema.pre("save", async function(next) {
 //   next();
 // });
 
-RoleSchema.methods.inheritedPermissionsArray = async function() {
+RoleReceiverSchema.methods.inheritedPermissionsArray = async function() {
   const perms = this.inheritedPermissions;
   const inheritedPermissions = perms.map(a => a.name);
   return inheritedPermissions;
 };
 
-RoleSchema.methods.addPermissions = async function(permissions) {
+RoleReceiverSchema.methods.addPermissions = async function(permissions) {
   /* Expects array of permissions ({name, parent}) */
   permissions.forEach(async permission => {
     if (!permission.parent) {
+      const permissionName = permission.name;
       const ownedPermissions = this.ownedPermissions;
-      if (ownedPermissions.includes(permission)) return;
-      this.ownedPermissions.push(permission);
+      if (ownedPermissions.includes(permissionName)) return;
+      this.ownedPermissions.push(permissionName);
     } else {
       const inheritedPermissions = await this.inheritedPermissionsArray();
       if (inheritedPermissions.includes(permission)) return;
@@ -79,6 +72,18 @@ RoleSchema.methods.addPermissions = async function(permissions) {
   await this.save();
 };
 
-const Role = mongoose.model("Role", RoleSchema);
+const RoleReceiver = mongoose.model("RoleReceiver", RoleReceiverSchema);
+
+const RoleSchema = new mongoose.Schema({
+  name: { ...roleNameSchema, unique: true },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
+});
+
+RoleSchema.plugin(uniqueValidator);
+
+const Role = RoleReceiver.discriminator("Role", RoleSchema);
 
 export default Role;
