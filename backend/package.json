@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "body-parse": "^0.1.0",
     "config": "^3.2.4",
     "cookie-parser": "~1.4.4",
