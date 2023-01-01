@@ -24,7 +24,7 @@
     "@hapi/joi": "^16.1.8",
     "bcrypt": "^3.0.7",
     "body-parse": "^0.1.0",
-    "config": "^3.2.4",
+    "config": "^3.3.8",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
